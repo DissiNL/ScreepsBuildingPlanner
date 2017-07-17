@@ -1,10 +1,22 @@
 #gridlock{float:left; width: 960px; height: 905px; margin-right: 10px;}
 #selectionbox{
-	float:left; 
-	width: 260px; 
-	height: 905px;
+	float:left;
+	background-color: #1a1a1a;
+	color:#fff;
+	padding:10px;
+	padding-top:30px;
+	box-sizing: border-box;
 }
-.grid { margin:0px; border-collapse:collapse }
+
+#selectionbox textarea{
+	width:100%;
+}
+
+.grid {
+	margin:10px;
+	border-collapse:collapse;
+}
+
 .grid td {
 	cursor:pointer;
 	width:18px; height:18px;
@@ -25,9 +37,44 @@ textarea {
      -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
      -moz-box-sizing: border-box;    /* Firefox, other Gecko */
      box-sizing: border-box;         /* Opera/IE 8+ */
+		 font-family: 'Open Sans', sans-serif;
 }
-#export_container { overflow: none; width: 295px; height: 435px; }
+#export_container { overflow: none; width: 295px; }
 #screeps-element-box .ui-selecting { background-color: #888888; }
 #screeps-element-box .ui-selected { background-color: #888888; color: white; }
 #screeps-element-box { list-style-type: none; margin: 0; padding: 0; width: 300px; }
 #screeps-element-box li { margin: 3px; padding-left: 30px; font-size: 1.3em; height: 25px; background-repeat: no-repeat; background-size: contain; background-position: left;}
+
+body{
+	font-family: 'Open Sans', sans-serif;
+	margin:0px;
+	padding:0px;
+	background-color: #2d2d2d;
+}
+
+.header{
+	background-color: #1a1a1a;
+	color:#fff;
+}
+
+.header img{
+	height:40px;
+	vertical-align: middle;
+}
+
+.header h1{
+	margin-bottom:0px;
+}
+
+.container{
+	width:1300px;
+	margin:auto;
+}
+
+#export{
+	height: auto;
+}
+
+#cell-details-box{
+	text-align: center;
+}
