@@ -313,3 +313,44 @@ function getTerrain(){
     }
   })
 }
+
+$('#save_room').on('click', function(){
+  var roomName = $('#room-name').val()
+  var rcl = $('#rcl').val()
+
+  if(roomName){
+    localStorage.setItem(roomName + '-rcl' + rcl, window.location.hash)
+
+    $('#saved_rooms').html('')
+    for(var name in localStorage){
+      $('#saved_rooms').append('<option value="' + name + '">' + name + '</option>')
+    }
+  }else{
+    alert('Please set the room name before saving.')
+  }
+})
+
+for(var name in localStorage){
+  $('#saved_rooms').append('<option value="' + name + '">' + name + '</option>')
+}
+
+$('#load_room').on('click', function(){
+  console.log('clicked')
+  var key = $('#saved_rooms').val()
+
+  var data = LZString.decompressFromEncodedURIComponent(localStorage.getItem(key).slice(1))
+
+  if (data)
+      processImport(data)
+})
+
+$('#delete_room').on('click', function(){
+  var key = $('#saved_rooms').val()
+
+  localStorage.removeItem(key)
+
+  $('#saved_rooms').html('')
+  for(var name in localStorage){
+    $('#saved_rooms').append('<option value="' + name + '">' + name + '</option>')
+  }
+})
