@@ -7,18 +7,44 @@
 	<script src="js/griddraw.js"></script>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<link rel="stylesheet" type="text/css" href="jquery-ui.css">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 	</head>
 <body>
-<div id='gridlock'></div>
-<div id='selectionbox'>
-<ul id='screeps-element-box'>
-</ul>
-<div id='export_container'>
-<textarea id='export'></textarea>
-<button id='import_textarea'>Import</button>
-<button id='export_textarea'>Export</button>
-<textarea rows="4" style='height:5em;' id='url_data'></textarea>
+<div class="header">
+	<h1>
+		<img src="images/logo.gif" />
+		Building Planner
+	</h1>
 </div>
+<div class="container">
+	<div id='gridlock'></div>
+	<div id='selectionbox'>
+	<div id='room-details'>
+		<input type='text' id='room-name' placeholder='Room Name (Optional)' />
+		RCL:
+		<select id='rcl'>
+			<option value='1'>1</option>
+			<option value='2'>2</option>
+			<option value='3'>3</option>
+			<option value='4'>4</option>
+			<option value='5'>5</option>
+			<option value='6'>6</option>
+			<option value='7'>7</option>
+			<option value='8' SELECTED>8</option>
+		</select>
+	</div>
+	<ul id='screeps-element-box'>
+	</ul>
+	<div id='cell-details-box'>
+		<p>X: <span id='cell-x'>0</span> Y: <span id='cell-y'>0</span></p>
+	</div>
+	<div id='export_container'>
+	<textarea id='export' rows="8"></textarea>
+	<button id='import_textarea'>Import</button>
+	<button id='export_textarea'>Export</button>
+	<textarea rows="4" style='height:5em;' id='url_data'></textarea>
+	</div>
+	</div>
 </div>
 <script>
 
@@ -83,24 +109,25 @@ function deleteStuff(el){
 	{
 		toGetFrom.data('building', null);
 		toGetFrom.css('background-image', "");
-		updateBuildingcounts(building, undefined);	
+		updateBuildingcounts(building, undefined);
 	}
 }
 
 function updateBuildingcounts(oldBuilding, newBuilding)
 {
+	var rcl = $('#rcl').val()
 	if(oldBuilding)
 	{
 		currentBuildingCounts[oldBuilding] -= 1;
 		$('#li-buildingcount-' + oldBuilding).text(currentBuildingCounts[oldBuilding]);
-		var pct = 100 - (currentBuildingCounts[oldBuilding] / CONTROLLER_STRUCTURES[oldBuilding][8] * 100);
+		var pct = 100 - (currentBuildingCounts[oldBuilding] / CONTROLLER_STRUCTURES[oldBuilding][rcl] * 100);
 		$('#li-building-' + oldBuilding).css("color", getGreenToRed(pct));
 	}
 	if(newBuilding)
 	{
 		currentBuildingCounts[newBuilding] += 1;
 		$('#li-buildingcount-' + newBuilding).text(currentBuildingCounts[newBuilding]);
-		var pct = 100 - (currentBuildingCounts[newBuilding] / CONTROLLER_STRUCTURES[newBuilding][8] * 100);
+		var pct = 100 - (currentBuildingCounts[newBuilding] / CONTROLLER_STRUCTURES[newBuilding][rcl] * 100);
 		$('#li-building-' + newBuilding).css("color", getGreenToRed(pct));
 	}
     updateExport();
@@ -113,11 +140,12 @@ function getGreenToRed(percent){
 
 function mayPlaceBuilding(theBuilding)
 {
-	return (currentBuildingCounts[theBuilding] < CONTROLLER_STRUCTURES[theBuilding][8]);
+	var rcl = $('#rcl').val()
+	return (currentBuildingCounts[theBuilding] < CONTROLLER_STRUCTURES[theBuilding][rcl]);
 }
 
 var currentBuildingCounts = {};
-var CONTROLLER_STRUCTURES= 
+var CONTROLLER_STRUCTURES=
 {
         "spawn": { 0: 0, 1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6: 1, 7: 2, 8: 3 },
         "extension": { 0: 0, 1: 0, 2: 5, 3: 10, 4: 20, 5: 30, 6: 40, 7: 50, 8: 60 },
@@ -137,6 +165,8 @@ var CONTROLLER_STRUCTURES=
 };
 $('#gridlock').append(grid.grid);
 
+var rcl = $('#rcl').val()
+
 for(var building in CONTROLLER_STRUCTURES)
 {
 	var selectedClass = '';
@@ -145,14 +175,13 @@ for(var building in CONTROLLER_STRUCTURES)
 		selectedClass = ' ui-selectee ui-selected'
 	}
 	currentBuildingCounts[building] = 0;
-	$('<li />', { 
+	$('<li />', {
 		'id': 'li-building-' + building,
 		'css': {'background-image': 'url(' + building + '.png', "color": getGreenToRed(100)},
 		'data-building': building,
-		'html': building + ' <span style="float:right"><span id="li-buildingcount-'+building+'">0</span> / ' + CONTROLLER_STRUCTURES[building][8] +'</span>',
+		'html': building + ' <span style="float:right"><span id="li-buildingcount-'+building+'">0</span> / <span id="li-buildingtotal-'+building+'">' + CONTROLLER_STRUCTURES[building][rcl] +'</span></span>',
 		'class': 'ui-widget-content' + selectedClass,
 	}).appendTo('#screeps-element-box');
-	
 }
 
 function clearGrid() {
@@ -179,9 +208,12 @@ function processImport(theData) {
     var backupSelectedelement = selectedElement;
     try{
 
-        var imports = JSON.parse(theData); 
-        
+        var imports = JSON.parse(theData);
+
         var elements = grid.elements;
+
+				if(imports.name){ $('#room-name').val(imports.name) }
+				if(imports.rcl){ $('#rcl').val(imports.rcl) }
 
         if(imports.buildings)
         {
@@ -214,7 +246,9 @@ function processImport(theData) {
 
 function updateExport()
 {
-    var exportData = {name:'textExport', buildings:{}};
+		var roomName = ($('#room-name').val() || 'textExport')
+		var rcl = $('#rcl').val()
+    var exportData = {name: roomName, rcl: rcl, buildings:{}};
     var elements = grid.elements;
     for(var y = 0; y < 50; y++)
     {
@@ -237,10 +271,10 @@ function updateExport()
 
 $(grid.grid).on("contextmenu",function(){
        return false;
-    }); 
-	
+    });
+
 function selectNewtool(theTool) {
-	
+
 	selectedElement = theTool;
 }
 
@@ -258,7 +292,7 @@ function initiateImportFromTextarea()
 }
 
 $( function() {
-    
+
     $("#import_textarea").click(initiateImportFromTextarea);
     $('#export_textarea').click(exportData);
     $("#screeps-element-box" ).selectable({filter: "li",
@@ -279,6 +313,18 @@ $( function() {
             processImport(data)
     }
   } );
+
+$('#rcl').on('change', function(){
+	var rcl = $('#rcl').val()
+
+	for(var building in CONTROLLER_STRUCTURES){
+		$('#li-buildingtotal-' + building).html(CONTROLLER_STRUCTURES[building][rcl])
+	}
+
+	updateExport()
+})
+
+$('#room-name').on('change', updateExport)
 </script>
 </body>
 </html>
