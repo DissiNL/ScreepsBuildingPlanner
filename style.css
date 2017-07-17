@@ -1,0 +1,33 @@
+#gridlock{float:left; width: 960px; height: 905px; margin-right: 10px;}
+#selectionbox{
+	float:left; 
+	width: 260px; 
+	height: 905px;
+}
+.grid { margin:0px; border-collapse:collapse }
+.grid td {
+	cursor:pointer;
+	width:18px; height:18px;
+	min-width:18px; min-height:18px;
+	max-width:18px; max-height:18px;
+	border:1px solid #000;
+	padding: 0px;
+	background-color: #222;
+	background-size: contain;
+	background-repeat: no-repeat;
+}
+.grid td:hover {
+	background-color: #444;
+}
+textarea {
+     width: 100%;
+     height: 100%;
+     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+     -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+     box-sizing: border-box;         /* Opera/IE 8+ */
+}
+#export_container { overflow: none; width: 295px; height: 435px; }
+#screeps-element-box .ui-selecting { background-color: #888888; }
+#screeps-element-box .ui-selected { background-color: #888888; color: white; }
+#screeps-element-box { list-style-type: none; margin: 0; padding: 0; width: 300px; }
+#screeps-element-box li { margin: 3px; padding-left: 30px; font-size: 1.3em; height: 25px; background-repeat: no-repeat; background-size: contain; background-position: left;}
