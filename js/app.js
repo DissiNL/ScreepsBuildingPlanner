@@ -147,6 +147,7 @@ function clearGrid() {
         for (var x = 0; x < 50; x++) {
             elements[y][x].data('building', null);
             elements[y][x].css('background-image', "");
+            elements[y][x].css('background-color', "");
         }
     }
 }
@@ -161,6 +162,7 @@ function processImport(theData) {
 
         if (imports.name) {
             $('#room-name').val(imports.name)
+            getTerrain()
         }
         if (imports.rcl) {
             $('#rcl').val(imports.rcl)
@@ -272,4 +274,42 @@ $('#rcl').on('change', function() {
     updateExport()
 })
 
-$('#room-name').on('change', updateExport)
+$('#room-name').on('change', function(){
+  updateExport()
+
+  getTerrain()
+})
+
+function getTerrain(){
+  var roomName = $('#room-name').val()
+
+  $.ajax({
+    url: 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20htmlstring%20where%20url%3D\'https%3A%2F%2Fscreeps.com%2Fapi%2Fgame%2Froom-terrain%3Froom%3D' + roomName + '\'&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=',
+    dataType: 'json',
+    success: function(data){
+      var elements = grid.elements;
+      for (var y = 0; y < 50; y++) {
+          for (var x = 0; x < 50; x++) {
+              elements[y][x].css('background-color', "");
+          }
+      }
+
+      var regex = /<body>(.*?)<\/body>/gm
+
+      var match = regex.exec(data.query.results.result)
+      var data = JSON.parse(match[1])
+
+      for (tile of data.terrain) {
+        var el = $(grid.elements[tile.y][tile.x])
+
+        if(tile.type === 'wall'){
+          el.css('background-color', '#000')
+        }
+
+        if(tile.type === 'swamp'){
+          el.css('background-color', '#292b18')
+        }
+      }
+    }
+  })
+}
