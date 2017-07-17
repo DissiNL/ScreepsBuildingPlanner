@@ -212,6 +212,9 @@ function processImport(theData) {
 
         var elements = grid.elements;
 
+				if(imports.name){ $('#room-name').val(imports.name) }
+				if(imports.rcl){ $('#rcl').val(imports.rcl) }
+
         if(imports.buildings)
         {
             clearGrid();
@@ -244,7 +247,8 @@ function processImport(theData) {
 function updateExport()
 {
 		var roomName = ($('#room-name').val() || 'textExport')
-    var exportData = {name: roomName, buildings:{}};
+		var rcl = $('#rcl').val()
+    var exportData = {name: roomName, rcl: rcl, buildings:{}};
     var elements = grid.elements;
     for(var y = 0; y < 50; y++)
     {
@@ -316,7 +320,11 @@ $('#rcl').on('change', function(){
 	for(var building in CONTROLLER_STRUCTURES){
 		$('#li-buildingtotal-' + building).html(CONTROLLER_STRUCTURES[building][rcl])
 	}
+
+	updateExport()
 })
+
+$('#room-name').on('change', updateExport)
 </script>
 </body>
 </html>
