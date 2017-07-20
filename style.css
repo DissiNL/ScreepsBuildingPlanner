@@ -29,7 +29,7 @@
 	background-repeat: no-repeat;
 }
 .grid td:hover {
-	background-color: #444;
+	background-color: #444 !important;
 }
 textarea {
      width: 100%;
