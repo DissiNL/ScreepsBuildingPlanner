@@ -306,7 +306,7 @@ function getTerrain(){
           el.css('background-color', '#000')
         }
 
-        if(tile.type === 'swamp'){
+        if(tile.type === 'swamp' && el.css('background-color') != 'rgb(0, 0, 0)'){
           el.css('background-color', '#292b18')
         }
       }
