@@ -39,12 +39,44 @@ textarea {
      box-sizing: border-box;         /* Opera/IE 8+ */
 		 font-family: 'Open Sans', sans-serif;
 }
-#export_container { overflow: none; width: 295px; }
+#export_container {
+	display: flex;
+	flex-flow: column;
+	overflow: none;
+	margin: 0 0.25rem;
+
+}
+
+.export-buttons {
+	display: flex;
+	flex: 1 1 auto;
+	flex-flow: row;
+	justify-content: space-between;
+	margin: 0.25rem 0;
+}
+
+.export-buttons button {
+	flex: 0 1 auto;
+	width: 45%;
+}
+
 #screeps-element-box .ui-selecting { background-color: #888888; }
 #screeps-element-box .ui-selected { background-color: #888888; color: white; }
 #screeps-element-box { list-style-type: none; margin: 0; padding: 0; width: 300px; }
-#screeps-element-box li { margin: 3px; padding-left: 30px; font-size: 1.3em; height: 25px; background-repeat: no-repeat; background-size: contain; background-position: left;}
+#screeps-element-box li {
+	display: flex;
 
+  height: 25px;
+	margin: 0.25rem 0.25rem;
+  padding-left: 30px;
+
+	border-radius: 3px;
+  background-repeat: no-repeat;
+  background-position: left;
+  background-size: contain;
+
+  font-size: 1.3em;
+}
 body{
 	font-family: 'Open Sans', sans-serif;
 	margin:0px;
@@ -77,4 +109,43 @@ body{
 
 #cell-details-box{
 	text-align: center;
+}
+
+.ui-widget-content {
+
+}
+
+.structure-name {
+	display: flex;
+	flex: 1 1 auto;
+	align-items: center;
+	margin: 0 0.5rem;
+}
+
+.structure-numbers {
+	display: flex;
+	flex: 1 1 auto;
+	align-items: center;
+	justify-content: flex-end;
+	margin: 0 0.5rem;
+}
+
+#room-details {
+	display: flex;
+	margin: 0.5rem 0;
+}
+
+#room-details input {
+	flex: 1 1 auto;
+	margin: 0 0.25rem;
+}
+
+#room-details label {
+	flex: 0 0 auto;
+	margin: 0 0.25rem;
+}
+
+#room-details select {
+	flex: 1 1 auto;
+	margin: 0 0.25rem;
 }

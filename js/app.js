@@ -129,7 +129,7 @@ for (var building in CONTROLLER_STRUCTURES) {
             "color": getGreenToRed(100)
         },
         'data-building': building,
-        'html': building + ' <span style="float:right"><span id="li-buildingcount-' + building + '">0</span> / <span id="li-buildingtotal-' + building + '">' + CONTROLLER_STRUCTURES[building][rcl] + '</span></span>',
+        'html': '<span class="structure-name">' + building + '</span> <span class="structure-numbers"><span id="li-buildingcount-' + building + '">0</span> / <span id="li-buildingtotal-' + building + '">' + CONTROLLER_STRUCTURES[building][rcl] + '</span></span>',
         'class': 'ui-widget-content' + selectedClass,
     }).appendTo('#screeps-element-box');
 }

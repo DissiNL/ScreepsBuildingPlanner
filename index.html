@@ -21,7 +21,7 @@
             <div id='selectionbox'>
                 <div id='room-details'>
                     <input type='text' id='room-name' placeholder='Room Name (Optional)' />
-                    RCL:
+                    <label>RCL:</label>
                     <select id='rcl'>
                         <option value='1'>1</option>
                         <option value='2'>2</option>
@@ -40,8 +40,10 @@
                 </div>
                 <div id='export_container'>
                     <textarea id='export' rows="8"></textarea>
-                    <button id='import_textarea'>Import</button>
-                    <button id='export_textarea'>Export</button>
+                    <div class='export-buttons'>
+                      <button id='import_textarea'>Import</button>
+                      <button id='export_textarea'>Export</button>
+                    </div>        
                     <textarea rows="4" style='height:5em;' id='url_data'></textarea>
                     <select id='saved_rooms'></select>
                     <button id='load_room'>Load</button>
