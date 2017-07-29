@@ -284,7 +284,7 @@ function getTerrain(){
   var roomName = $('#room-name').val()
 
   $.ajax({
-    url: 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20htmlstring%20where%20url%3D\'https%3A%2F%2Fscreeps.com%2Fapi%2Fgame%2Froom-terrain%3Froom%3D' + roomName + '\'&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=',
+    url: 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20htmlstring%20where%20url%3D\'https%3A%2F%2Fscreeps.com%2Fapi%2Fgame%2Froom-terrain%3Froom%3D' + roomName + '%26encoded%3D1\'&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=',
     dataType: 'json',
     success: function(data){
       var elements = grid.elements;
@@ -299,15 +299,20 @@ function getTerrain(){
       var match = regex.exec(data.query.results.result)
       var data = JSON.parse(match[1])
 
-      for (tile of data.terrain) {
-        var el = $(grid.elements[tile.y][tile.x])
+      if(!data.error){
+        var terrain = data.terrain[0].terrain
 
-        if(tile.type === 'wall'){
-          el.css('background-color', '#000')
-        }
+        for(var y=0; y<50; y++) {
+          for(var x=0; x<50; x++) {
+            var code = terrain.charAt(y*50+x)
+            var el = $(grid.elements[y][x])
 
-        if(tile.type === 'swamp' && el.css('background-color') != 'rgb(0, 0, 0)'){
-          el.css('background-color', '#292b18')
+            if(code & 1) {
+              el.css('background-color', '#000')
+            }else if(code & 2) {
+              el.css('background-color', '#292b18')
+            }
+          }
         }
       }
     }
