@@ -168,6 +168,10 @@ function processImport(theData) {
             $('#rcl').val(imports.rcl)
         }
 
+        if(imports.shard){
+          $('#shard').val(imports.shard)
+        }
+
         if (imports.buildings) {
             clearGrid();
             for (var building in imports.buildings) {
@@ -193,9 +197,11 @@ function processImport(theData) {
 
 function updateExport() {
     var roomName = ($('#room-name').val() || 'textExport')
+    var shard = ($('#shard').val() ||'shard0' )
     var rcl = $('#rcl').val()
     var exportData = {
         name: roomName,
+        shard: shard,
         rcl: rcl,
         buildings: {}
     };
@@ -280,11 +286,18 @@ $('#room-name').on('change', function(){
   getTerrain()
 })
 
+$('#shard').on('change', function(){
+  updateExport()
+
+  getTerrain()
+})
+
 function getTerrain(){
   var roomName = $('#room-name').val()
+  var shard = $('#shard').val()
 
   $.ajax({
-    url: 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20htmlstring%20where%20url%3D\'https%3A%2F%2Fscreeps.com%2Fapi%2Fgame%2Froom-terrain%3Froom%3D' + roomName + '%26encoded%3D1\'&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=',
+    url: 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20htmlstring%20where%20url%3D\'https%3A%2F%2Fscreeps.com%2Fapi%2Fgame%2Froom-terrain%3Froom%3D' + roomName + '%26encoded%3D1%26shard%3D' + shard + '\'&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=',
     dataType: 'json',
     success: function(data){
       var elements = grid.elements;
