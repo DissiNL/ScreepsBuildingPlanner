@@ -1,31 +1,36 @@
 <html>
     <head>
         <title>Building planner</title>
-        <script src="js/jquery-3.1.0.min.js"></script>
-        <script src="js/jquery-ui.js"></script>
-        <script src="js/lz-string.min.js"></script>
+        <script src="lib/jquery/jquery-3.1.0.min.js"></script>
+        <script src="lib/jquery/jquery-ui.js"></script>
+        <script src="lib/lz-string/lz-string.min.js"></script>
         <script src="js/griddraw.js"></script>
-        <link rel="stylesheet" type="text/css" href="style.css">
-        <link rel="stylesheet" type="text/css" href="jquery-ui.css">
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+        <link rel="stylesheet"
+              type="text/css"
+              href="css/style.css">
+        <link rel="stylesheet"
+              type="text/css"
+              href="lib/jquery/jquery-ui.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans"
+              rel="stylesheet">
     </head>
     <body>
         <div class="header">
             <h1>
-            <img src="images/logo.gif" />
-            Building Planner
+                <img src="images/screeps/logo.gif" /> Building Planner
             </h1>
         </div>
         <div class="container">
             <div id='gridlock'></div>
             <div id='selectionbox'>
                 <div id='room-details'>
-                    <input type='text' id='room-name' placeholder='Room Name (Optional)' />
+                    <input type='text'
+                           id='room-name'
+                           placeholder='Room Name (Optional)' />
                     <select id='shard'>
-                      <option value='shard0' SELECTED>Shard 0</option>
-                      <option value='shard1'>Shard 1</option>
-                    </select>
-                    RCL:
+                        <option value='shard0' SELECTED>Shard 0</option>
+                        <option value='shard1'>Shard 1</option>
+                    </select> RCL:
                     <select id='rcl'>
                         <option value='1'>1</option>
                         <option value='2'>2</option>
@@ -43,10 +48,13 @@
                     <p>X: <span id='cell-x'>0</span> Y: <span id='cell-y'>0</span></p>
                 </div>
                 <div id='export_container'>
-                    <textarea id='export' rows="8"></textarea>
+                    <textarea id='export'
+                              rows="8"></textarea>
                     <button id='import_textarea'>Import</button>
                     <button id='export_textarea'>Export</button>
-                    <textarea rows="4" style='height:5em;' id='url_data'></textarea>
+                    <textarea rows="4"
+                              style='height:5em;'
+                              id='url_data'></textarea>
                     <select id='saved_rooms'></select>
                     <button id='load_room'>Load</button>
                     <button id='delete_room'>Delete</button>

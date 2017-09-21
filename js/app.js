@@ -1,5 +1,5 @@
-$.fn.OneClickSelect = function() {
-    return $(this).on('click', function() {
+$.fn.OneClickSelect = function () {
+    return $(this).on('click', function () {
         var range, selection;
 
         if (window.getSelection) {
@@ -16,7 +16,7 @@ $.fn.OneClickSelect = function() {
     });
 };
 
-function exportData() {
+function exportData () {
     $.ajax({
         url: "http://short.dissi.me/create",
         type: "GET",
@@ -26,7 +26,7 @@ function exportData() {
             "pw": 'test1234',
             "link": window.location.href
         }
-    }).done(function(data) {
+    }).done(function (data) {
         console.log(data);
         $('#url_data').val(data.shortURL);
 
@@ -36,20 +36,22 @@ function exportData() {
 var lastClicked;
 var selectedElement = 'spawn'
 var grid = clickableGrid(50, 50, drawStuff, deleteStuff);
+var imageUrlBase = 'images/';
+var screepsImageUrlBase = imageUrlBase + 'screeps/';
 
-function drawStuff(el) {
+function drawStuff (el) {
     var toGetFrom = el;
     var x = toGetFrom.data('x');
     var y = toGetFrom.data('y');
     var building = toGetFrom.data('building');
     if (building != selectedElement && mayPlaceBuilding(selectedElement)) {
         toGetFrom.data('building', selectedElement);
-        toGetFrom.css('background-image', 'url(' + selectedElement + '.png');
+        toGetFrom.css('background-image', 'url(' + screepsImageUrlBase + selectedElement + '.png');
         updateBuildingcounts(building, selectedElement);
     }
 }
 
-function deleteStuff(el) {
+function deleteStuff (el) {
     var toGetFrom = el;
     var x = toGetFrom.data('x');
     var y = toGetFrom.data('y');
@@ -61,7 +63,7 @@ function deleteStuff(el) {
     }
 }
 
-function updateBuildingcounts(oldBuilding, newBuilding) {
+function updateBuildingcounts (oldBuilding, newBuilding) {
     var rcl = $('#rcl').val()
     if (oldBuilding) {
         currentBuildingCounts[oldBuilding] -= 1;
@@ -78,13 +80,13 @@ function updateBuildingcounts(oldBuilding, newBuilding) {
     updateExport();
 }
 
-function getGreenToRed(percent) {
+function getGreenToRed (percent) {
     r = percent < 50 ? 255 : Math.floor(255 - (percent * 2 - 100) * 255 / 100);
     g = percent > 50 ? 255 : Math.floor((percent * 2) * 255 / 100);
     return 'rgb(' + r + ',' + g + ',0)';
 }
 
-function mayPlaceBuilding(theBuilding) {
+function mayPlaceBuilding (theBuilding) {
     var rcl = $('#rcl').val()
     return (currentBuildingCounts[theBuilding] < CONTROLLER_STRUCTURES[theBuilding][rcl]);
 }
@@ -93,7 +95,7 @@ var currentBuildingCounts = {};
 
 /* beautify preserve:start */
 var CONTROLLER_STRUCTURES =
-{
+    {
         "spawn": { 0: 0, 1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6: 1, 7: 2, 8: 3 },
         "extension": { 0: 0, 1: 0, 2: 5, 3: 10, 4: 20, 5: 30, 6: 40, 7: 50, 8: 60 },
         "link": { 1: 0, 2: 0, 3: 0, 4: 0, 5: 2, 6: 3, 7: 4, 8: 6 },
@@ -109,7 +111,7 @@ var CONTROLLER_STRUCTURES =
         "lab": { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 3, 7: 6, 8: 10 },
         "container": { 0: 5, 1: 5, 2: 5, 3: 5, 4: 5, 5: 5, 6: 5, 7: 5, 8: 5 },
         "nuker": { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 1 }
-};
+    };
 /* beautify preserve:end */
 
 $('#gridlock').append(grid.grid);
@@ -125,7 +127,7 @@ for (var building in CONTROLLER_STRUCTURES) {
     $('<li />', {
         'id': 'li-building-' + building,
         'css': {
-            'background-image': 'url(' + building + '.png',
+            'background-image': 'url(' + screepsImageUrlBase + building + '.png',
             "color": getGreenToRed(100)
         },
         'data-building': building,
@@ -134,7 +136,7 @@ for (var building in CONTROLLER_STRUCTURES) {
     }).appendTo('#screeps-element-box');
 }
 
-function clearGrid() {
+function clearGrid () {
 
     for (var building in CONTROLLER_STRUCTURES) {
         currentBuildingCounts[building] = 0;
@@ -152,7 +154,7 @@ function clearGrid() {
     }
 }
 
-function processImport(theData) {
+function processImport (theData) {
     var backupSelectedelement = selectedElement;
     try {
 
@@ -168,8 +170,8 @@ function processImport(theData) {
             $('#rcl').val(imports.rcl)
         }
 
-        if(imports.shard){
-          $('#shard').val(imports.shard)
+        if (imports.shard) {
+            $('#shard').val(imports.shard)
         }
 
         if (imports.buildings) {
@@ -195,9 +197,9 @@ function processImport(theData) {
     selectNewtool(selectedElement);
 }
 
-function updateExport() {
+function updateExport () {
     var roomName = ($('#room-name').val() || 'textExport')
-    var shard = ($('#shard').val() ||'shard0' )
+    var shard = ($('#shard').val() || 'shard0')
     var rcl = $('#rcl').val()
     var exportData = {
         name: roomName,
@@ -226,38 +228,38 @@ function updateExport() {
     location.hash = LZString.compressToEncodedURIComponent(JSON.stringify(exportData))
 }
 
-$(grid.grid).on("contextmenu", function() {
+$(grid.grid).on("contextmenu", function () {
     return false;
 });
 
-function selectNewtool(theTool) {
+function selectNewtool (theTool) {
 
     selectedElement = theTool;
 }
 
-function initiateImport() {
+function initiateImport () {
     var data = prompt("Please paste your previous export", "{}");
     if (data)
         processImport(data);
 }
 
-function initiateImportFromTextarea() {
+function initiateImportFromTextarea () {
     var data = $("#export").val();
     if (data)
         processImport(data);
 }
 
-$(function() {
+$(function () {
 
     $("#import_textarea").click(initiateImportFromTextarea);
     $('#export_textarea').click(exportData);
     $("#screeps-element-box").selectable({
         filter: "li",
-        selected: function(event, ui) {
+        selected: function (event, ui) {
             var building = $(ui.selected).data('building');
             selectNewtool(building);
         },
-        selecting: function(event, ui) {
+        selecting: function (event, ui) {
             if ($(".ui-selected, .ui-selecting").length > 1) {
                 $(ui.selecting).removeClass("ui-selecting");
             }
@@ -270,7 +272,7 @@ $(function() {
     }
 });
 
-$('#rcl').on('change', function() {
+$('#rcl').on('change', function () {
     var rcl = $('#rcl').val()
 
     for (var building in CONTROLLER_STRUCTURES) {
@@ -280,95 +282,95 @@ $('#rcl').on('change', function() {
     updateExport()
 })
 
-$('#room-name').on('change', function(){
-  updateExport()
+$('#room-name').on('change', function () {
+    updateExport()
 
-  getTerrain()
+    getTerrain()
 })
 
-$('#shard').on('change', function(){
-  updateExport()
+$('#shard').on('change', function () {
+    updateExport()
 
-  getTerrain()
+    getTerrain()
 })
 
-function getTerrain(){
-  var roomName = $('#room-name').val()
-  var shard = $('#shard').val()
+function getTerrain () {
+    var roomName = $('#room-name').val()
+    var shard = $('#shard').val()
 
-  $.ajax({
-    url: 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20htmlstring%20where%20url%3D\'https%3A%2F%2Fscreeps.com%2Fapi%2Fgame%2Froom-terrain%3Froom%3D' + roomName + '%26encoded%3D1%26shard%3D' + shard + '\'&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=',
-    dataType: 'json',
-    success: function(data){
-      var elements = grid.elements;
-      for (var y = 0; y < 50; y++) {
-          for (var x = 0; x < 50; x++) {
-              elements[y][x].css('background-color', "");
-          }
-      }
-
-      var regex = /<body>(.*?)<\/body>/gm
-
-      var match = regex.exec(data.query.results.result)
-      var data = JSON.parse(match[1])
-
-      if(!data.error){
-        var terrain = data.terrain[0].terrain
-
-        for(var y=0; y<50; y++) {
-          for(var x=0; x<50; x++) {
-            var code = terrain.charAt(y*50+x)
-            var el = $(grid.elements[y][x])
-
-            if(code & 1) {
-              el.css('background-color', '#000')
-            }else if(code & 2) {
-              el.css('background-color', '#292b18')
+    $.ajax({
+        url: 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20htmlstring%20where%20url%3D\'https%3A%2F%2Fscreeps.com%2Fapi%2Fgame%2Froom-terrain%3Froom%3D' + roomName + '%26encoded%3D1%26shard%3D' + shard + '\'&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=',
+        dataType: 'json',
+        success: function (data) {
+            var elements = grid.elements;
+            for (var y = 0; y < 50; y++) {
+                for (var x = 0; x < 50; x++) {
+                    elements[y][x].css('background-color', "");
+                }
             }
-          }
+
+            var regex = /<body>(.*?)<\/body>/gm
+
+            var match = regex.exec(data.query.results.result)
+            var data = JSON.parse(match[1])
+
+            if (!data.error) {
+                var terrain = data.terrain[0].terrain
+
+                for (var y = 0; y < 50; y++) {
+                    for (var x = 0; x < 50; x++) {
+                        var code = terrain.charAt(y * 50 + x)
+                        var el = $(grid.elements[y][x])
+
+                        if (code & 1) {
+                            el.css('background-color', '#000')
+                        } else if (code & 2) {
+                            el.css('background-color', '#292b18')
+                        }
+                    }
+                }
+            }
         }
-      }
-    }
-  })
+    })
 }
 
-$('#save_room').on('click', function(){
-  var roomName = $('#room-name').val()
-  var rcl = $('#rcl').val()
+$('#save_room').on('click', function () {
+    var roomName = $('#room-name').val()
+    var rcl = $('#rcl').val()
 
-  if(roomName){
-    localStorage.setItem(roomName + '-rcl' + rcl, window.location.hash)
+    if (roomName) {
+        localStorage.setItem(roomName + '-rcl' + rcl, window.location.hash)
+
+        $('#saved_rooms').html('')
+        for (var name in localStorage) {
+            $('#saved_rooms').append('<option value="' + name + '">' + name + '</option>')
+        }
+    } else {
+        alert('Please set the room name before saving.')
+    }
+})
+
+for (var name in localStorage) {
+    $('#saved_rooms').append('<option value="' + name + '">' + name + '</option>')
+}
+
+$('#load_room').on('click', function () {
+    console.log('clicked')
+    var key = $('#saved_rooms').val()
+
+    var data = LZString.decompressFromEncodedURIComponent(localStorage.getItem(key).slice(1))
+
+    if (data)
+        processImport(data)
+})
+
+$('#delete_room').on('click', function () {
+    var key = $('#saved_rooms').val()
+
+    localStorage.removeItem(key)
 
     $('#saved_rooms').html('')
-    for(var name in localStorage){
-      $('#saved_rooms').append('<option value="' + name + '">' + name + '</option>')
+    for (var name in localStorage) {
+        $('#saved_rooms').append('<option value="' + name + '">' + name + '</option>')
     }
-  }else{
-    alert('Please set the room name before saving.')
-  }
-})
-
-for(var name in localStorage){
-  $('#saved_rooms').append('<option value="' + name + '">' + name + '</option>')
-}
-
-$('#load_room').on('click', function(){
-  console.log('clicked')
-  var key = $('#saved_rooms').val()
-
-  var data = LZString.decompressFromEncodedURIComponent(localStorage.getItem(key).slice(1))
-
-  if (data)
-      processImport(data)
-})
-
-$('#delete_room').on('click', function(){
-  var key = $('#saved_rooms').val()
-
-  localStorage.removeItem(key)
-
-  $('#saved_rooms').html('')
-  for(var name in localStorage){
-    $('#saved_rooms').append('<option value="' + name + '">' + name + '</option>')
-  }
 })
