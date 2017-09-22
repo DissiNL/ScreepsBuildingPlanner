@@ -1,0 +1,72 @@
+/*
+
+Colors:
+
+    General Background:
+    #222222
+
+    Hover Background:
+    #444444
+
+    Dark Background:
+    #1A1A1A
+
+    Highlight:
+    #888888
+
+    Green:
+    #19FF00
+
+    Red:
+    #FF0000
+
+*/
+
+body {
+    background-color: #2D2D2D;
+    
+    font-family: 'Open Sans', sans-serif;
+}
+
+#main {
+    padding-top: 20px;
+}
+
+#logo {
+    padding: 2px 0;
+
+    background-color: #1A1A1A;
+    color: #FFFFFF;
+}
+
+#logo img {
+    width: 220px;
+    height: 40px;
+}
+
+.screeps-grid {
+    width: 100%;
+
+    text-align: center;
+}
+
+.screeps-grid table {
+    display: inline-table;
+
+    width: 800px;
+    height: 800px;
+}
+
+.screeps-grid table tbody tr td.cell {
+    width: 2%;
+    height: 2%;
+
+    cursor: pointer;
+
+	border: 1px solid #000000;
+	background-color: #222222;
+}
+
+.screeps-grid table tbody tr td.cell.highlight {
+	background-color: #333333;
+}
