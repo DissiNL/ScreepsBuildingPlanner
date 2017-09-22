@@ -1,0 +1,1 @@
+window.APP = angular.module('APP', []);
