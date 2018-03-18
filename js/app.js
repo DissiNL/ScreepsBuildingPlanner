@@ -334,6 +334,28 @@ function getTerrain () {
     })
 }
 
+function getShards(){
+  $.ajax({
+    url: 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20htmlstring%20where%20url%3D\'https%3A%2F%2Fscreeps.com%2Fapi%2Fgame%2Fshards%2Finfo\'&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=',
+    dataType: 'json',
+    success: function(data){
+      var regex = /<body>(.*?)<\/body>/gm
+
+      var match = regex.exec(data.query.results.result)
+      var data = JSON.parse(match[1])
+      $('#shard').html('')
+      for(var i in data.shards){
+        var shard = data.shards[i]
+        $('#shard').append('<option value="' + shard.name + '">' + shard.name + '</option>')
+      }
+    }
+  })
+}
+
+$(document).ready(function(){
+  getShards()
+})
+
 $('#save_room').on('click', function () {
     var roomName = $('#room-name').val()
     var rcl = $('#rcl').val()

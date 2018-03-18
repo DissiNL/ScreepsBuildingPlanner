@@ -78,3 +78,7 @@ body{
 #cell-details-box{
 	text-align: center;
 }
+
+#room-name{
+	width:155px;
+}
