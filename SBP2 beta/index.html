@@ -1,0 +1,55 @@
+<html>
+    <head>
+        <title>Building planner 2</title>
+
+        <!-- 3rd Party Scripts -->
+        <script src="lib/jquery-3.2.1.min.js"></script>
+        <script src="lib/angular-1.6.6.min.js"></script>
+        <script src="lib/popper-1.11.0.min.js"></script>
+        <script src="lib/bootstrap-4.0.0-beta.min.js"></script>
+
+        <!-- Scripts -->
+        <script src="js/app.js"></script>
+        <script src="js/cell.directive.js"></script>
+        <script src="js/main.controller.js"></script>
+
+        <!-- 3rd Party Styles -->
+        <link rel="stylesheet" href="lib/bootstrap-4.0.0-beta.min.css">
+
+        <!-- Styles -->
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+
+        <!-- Open Sans Font -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    </head>
+    <body ng-app="APP">
+        <div id="main" class="container-fluid">
+            <div class="row">
+                <h2 class="col" id="logo">
+                    <img src="images/screeps/logo.gif" /> Building planner
+                </h2>
+            </div>
+            <div class="row">
+                <div ng-controller="MainController as ctrl" class="col">
+                    <div class="screeps-grid">
+                        <table>
+                            <tbody>
+                                <tr ng-repeat="row in ctrl.grid">
+                                    <td ng-repeat="cell in row"
+                                        cell="cell"
+                                        class="cell"
+                                        ng-class="{
+                                            'highlight': ctrl.hover.x === cell.x || ctrl.hover.y === cell.y
+                                        }"
+                                        ng-mouseover="ctrl.processCellMouseover(cell)"
+                                        ng-click="ctrl.processCellClick(cell)">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
